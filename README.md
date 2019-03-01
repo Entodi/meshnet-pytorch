@@ -1,1 +1,1 @@
-# MeshNet-PyTorch
+# MeshNet PyTorch Implementation
