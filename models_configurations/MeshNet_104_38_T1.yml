@@ -1,0 +1,19 @@
+name: meshnet
+params:
+- dropout: 0
+  params: {in_channels: 1, kernel_size: 3, out_channels: 71, padding: 1, stride: 1, dilation: 1}
+- dropout: 0
+  params: {in_channels: 71, kernel_size: 3, out_channels: 71, padding: 1, stride: 1, dilation: 1}
+- dropout: 0
+  params: {in_channels: 71, kernel_size: 3, out_channels: 71, padding: 1, stride: 1, dilation: 1}
+- dropout: 0
+  params: {in_channels: 71, kernel_size: 3, out_channels: 71, padding: 2, stride: 1, dilation: 2}
+- dropout: 0
+  params: {in_channels: 71, kernel_size: 3, out_channels: 71, padding: 4, stride: 1, dilation: 4}
+- dropout: 0
+  params: {in_channels: 71, kernel_size: 3, out_channels: 71, padding: 8, stride: 1, dilation: 8}
+- dropout: 0
+  params: {in_channels: 71, kernel_size: 3, out_channels: 71, padding: 1, stride: 1, dilation: 1}
+- dropout: 0
+  params: {in_channels: 71, kernel_size: 1, out_channels: 104, padding: 0, stride: 1, dilation: 1}
+
