@@ -4,6 +4,7 @@ import numpy as np
 from scipy.stats import truncnorm
 from torch.utils.data.dataset import Dataset
 import torch
+from joblib import Parallel, delayed
 
 
 def unit_interval_normalization(x):
@@ -253,10 +254,14 @@ class VolumetricDataset(Dataset):
 
 
     def _load_volumes(self):
-        self._read_paths()
-        self._dataset = {}
-        for i in progressbar.progressbar(range(len(self._paths))):
-            self._dataset[i] = Subject(self._paths[i], self._input_filenames, 
+
+        def job(index):
+            self._dataset[index] = Subject(self._paths[index], self._input_filenames, 
                 self._target_filename, self._subvolume_shape, 
                 self._preprocessing, self._extended)
-            self._dataset[i].load_volume()        
+            self._dataset[index].load_volume()     
+
+        self._read_paths()
+        self._dataset = {}
+        Parallel(n_jobs=-1)(
+            delayed(job)(i) for i in progressbar.progressbar(range(len(self._paths))))
