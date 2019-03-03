@@ -93,9 +93,9 @@ class Subject:
             )
         if sigmas is None:
             sigmas = np.array(
-                [self._volume_shape[0] // 4, 
-                self._volume_shape[0] // 4, 
-                self._volume_shape[0] // 4]
+                [self._volume_shape[0] // 3, 
+                self._volume_shape[0] // 3, 
+                self._volume_shape[0] // 3]
             )
         self._truncnorm_coordinates = truncnorm(
             (self._half_subvolume_shape - mus + 1) / sigmas, 
