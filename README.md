@@ -42,7 +42,7 @@ Watch video with example of brain atlas segmentation.
 
 ## Torch Implementation for brain tissue segmentation https://github.com/Entodi/MeshNet
 
-Result on subject **105216**
+Result on subject **105216**  
 | T1 MRI  | FreeSurfer | MeshNet |
 |---|---|---|
 | ![Alt Text](https://github.com/Entodi/MeshNet/blob/master/gif/axial_t1.gif?raw=true)  |  ![Alt Text](https://github.com/Entodi/MeshNet/blob/master/gif/axial_fs.gif?raw=true)  | ![Alt Text](https://github.com/Entodi/MeshNet/blob/master/gif/axial_219.gif?raw=true)   |
