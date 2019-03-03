@@ -2,16 +2,25 @@
 
 This repository contains PyTorch implementation of MeshNet architecture. MeshNet is volumetric convolutional neural network based on dilated kernels [1] for image segmentation. 
 
-Code provides framework to train, evaluate model for segmentation of 104 class brain atlas. It is modification of our previous work [3].
+Code provides framework to train, evaluate model for segmentation of 104 class brain atlas. It is modification of our previous work [3]. 
 
-# Training
+# Usage
+## Training
+
+To train the model use following command:
 ```
-python main.py --model ./models_configurations/MeshNet_104_38_T1.yml --train_path ./folds/hcp_example/train.txt --validation_path ./folds/hcp_example/validation.txt --batch_size 8 --sv_w 38 --sv_h 38 --sv_d 38 --n_threads [n_threads] --weight_init xavier_normal --visdom_server [visdom_server url]
+python main.py --model ./models_configurations/MeshNet_104_38_T1.yml --train_path ./folds/hcp_example/train.txt --validation_path ./folds/hcp_example/validation.txt
 ```
 
-# Evaluation
+We also support Visdom (https://github.com/facebookresearch/visdom) monitoring for training. To use it use arguments: 
 ```
-python evaluation.py --models_file example_models.txt --evaluation_path folds/hcp_example/test.txt --batch_size 8 --n_subvolumes 1024
+--visdom --visdom_server [visdom_server_ip] --visdom_port [visdom_server_port]
+```
+
+## Evaluation
+To evaluate the model use the following command:
+```
+python evaluation.py --models_file example_models.txt --evaluation_path folds/hcp_example/test.txt
 ```
 
 # Requirements
