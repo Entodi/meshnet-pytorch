@@ -2,7 +2,7 @@
 
 This repository contains PyTorch implementation of MeshNet architecture. MeshNet is volumetric convolutional neural network based on dilated kernels [1] for image segmentation. 
 
-Code provides framework to train, evaluate model for segmentation of 104 class brain atlas. It is modification of our previous work [4].
+Code provides framework to train, evaluate model for segmentation of 104 class brain atlas. It is modification of our previous work [3].
 
 # Training
 ```
@@ -30,13 +30,13 @@ Data were provided [in part] by the Human Connectome Project, WU-Minn Consortium
 
 [1] https://arxiv.org/abs/1511.07122 Multi-Scale Context Aggregation by Dilated Convolutions. *Fisher Yu, Vladlen Koltun*  
 [2] https://arxiv.org/abs/1612.00940 End-to-end learning of brain tissue segmentation from imperfect labeling. *Alex Fedorov, Jeremy Johnson, Eswar Damaraju, Alexei Ozerin, Vince D. Calhoun, Sergey M. Plis*  
-[3] http://www.humanconnectomeproject.org/ Human Connectome Project  
-[4] https://arxiv.org/abs/1711.00457 Almost instant brain atlas segmentation for large-scale studies. Alex Fedorov, Eswar Damaraju, Vince Calhoun, Sergey Plis  
+[3] https://arxiv.org/abs/1711.00457 Almost instant brain atlas segmentation for large-scale studies. Alex Fedorov, Eswar Damaraju, Vince Calhoun, Sergey Plis  
+[4] http://www.humanconnectomeproject.org/ Human Connectome Project  
 
 # Previously
 
 ## Brain Atlas segmentation with [**brainchop.org**](http://brainchop.org)
-To get brain atlas segmentation (https://arxiv.org/abs/1711.00457 extension of this work) you don't need to run any code. Just sign up at [**brainchop.org**](http://brainchop.org), upload your 3T MRI T1 image and get brain atlas in 1-2 minutes.
+To get brain atlas segmentation ([3]) you don't need to run any code. Just sign up at [**brainchop.org**](http://brainchop.org), upload your 3T MRI T1 image and get brain atlas in 1-2 minutes.
 
 Watch video with example of brain atlas segmentation.  
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/Nc-l1qd3dAg/0.jpg)](https://www.youtube.com/embed/Nc-l1qd3dAg?autoplay=1&loop=1&playlist=Nc-l1qd3dAg)
