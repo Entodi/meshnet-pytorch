@@ -74,7 +74,8 @@ class Subject:
             # Calculation of the centered nonoverlap grid
             # Grid will not cover the whole volume if the multiplier 
             # of the volume shape is not equal to subvolume shape
-            return [(c, c + step) for c in range((length % step) // 2, length - step, step)]
+            return [(c, c + step) for c in range(
+                (length % step) // 2, length - step + 1, step)]
                 
         z = generate_centered_nonoverlap_1d_grid(
             self._volume_shape[0], self._subvolume_shape[0])
@@ -94,9 +95,9 @@ class Subject:
             )
         if sigmas is None:
             sigmas = np.array(
-                [self._volume_shape[0] // 3, 
-                self._volume_shape[0] // 3, 
-                self._volume_shape[0] // 3]
+                [self._volume_shape[0] // 4, 
+                self._volume_shape[0] // 4, 
+                self._volume_shape[0] // 4]
             )
         self._truncnorm_coordinates = truncnorm(
             (self._half_subvolume_shape - mus + 1) / sigmas, 
@@ -265,5 +266,6 @@ class VolumetricDataset(Dataset):
         self._read_paths()
         self._dataset = {}
         subjects = Parallel(n_jobs=-1)(
-            delayed(self.load_job)(i) for i in progressbar.progressbar(range(len(self._paths))))
+            delayed(self.load_job)(i) for i in progressbar.progressbar(
+                range(len(self._paths))))
         self._dataset = {i: s for i, s in enumerate(subjects)}

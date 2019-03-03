@@ -11,6 +11,7 @@ from sklearn.metrics import f1_score
 from nipy import save_image, load_image 
 from nipy.core.api import Image
 
+
 def train(dataloader, net, optimizer, criterion):
     net.train()
     for i, data in enumerate(dataloader, 0):
@@ -116,15 +117,15 @@ def convert_npy_to_nii(npy_data, numpy_filename, base_nifti_filename):
     print ('Saved {}..'.format(numpy_filename))
 
 
-def predict(data, dataloader, net, nSubvolumes, nClasses, subvolume_shape):
+def predict(data, dataloader, net, n_subvolumes, n_classes, subvolume_shape):
     net.eval()
-    runtime = np.zeros(len(dataloader) // nSubvolumes + 1)
+    runtime = np.zeros(len(dataloader) // n_subvolumes)
     segmentations = {}
     dataset = data.get_all_data()
     for i in range(len(dataset)):
-        segmentations[i] = torch.zeros(tuple(np.insert(dataset[i].get_volume_shape(), 0, nClasses)), dtype=torch.uint8)
+        segmentations[i] = torch.zeros(tuple(np.insert(dataset[i].get_volume_shape(), 0, n_classes)), dtype=torch.uint8)
     for i, data in enumerate(dataloader, 0):
-        subj_id = i // nSubvolumes
+        subj_id = i // n_subvolumes
         inputs, _, coords = data
         inputs = Variable(inputs.cuda(), requires_grad=False)
         start = time.time()
@@ -136,7 +137,7 @@ def predict(data, dataloader, net, nSubvolumes, nClasses, subvolume_shape):
         predicted = predicted.cpu()
         for j in range(predicted.shape[0]):
             c_j = coords[j]
-            for c in range(nClasses):
+            for c in range(n_classes):
                 segmentations[subj_id][c, c_j[0, 0]:c_j[0, 1], 
                 c_j[1, 0]:c_j[1, 1], c_j[2, 0]:c_j[2, 1]] += (predicted[j] == c)
     for i in segmentations.keys():
@@ -144,16 +145,16 @@ def predict(data, dataloader, net, nSubvolumes, nClasses, subvolume_shape):
     return segmentations, runtime
 
 
-def calculate_metrics(data, dataloader, net, nSubvolumes, nClasses, subvolume_shape, metrics=[(f1_score, 'dice')], save_prediction=False, model_name=''):
+def calculate_metrics(data, dataloader, net, n_subvolumes, n_classes, subvolume_shape, metrics=[(f1_score, 'dice')], save_prediction=False, model_name=''):
     net.eval()
-    segmentations, runtime = predict(data, dataloader, net, nSubvolumes, nClasses, subvolume_shape)
+    segmentations, runtime = predict(data, dataloader, net, n_subvolumes, n_classes, subvolume_shape)
     dataset = data.get_all_data()
     inputs_filenames = data.get_paths()
     columns = ['name']
     for m in metrics:
-        columns += ['{}_{}'.format(m[1], i) for i in range(nClasses)]
-        columns += ['{}_{}'.format('n_voxel_true', i) for i in range(nClasses)]
-        columns += ['{}_{}'.format('n_voxel_pred', i) for i in range(nClasses)]
+        columns += ['{}_{}'.format(m[1], i) for i in range(n_classes)]
+        columns += ['{}_{}'.format('n_voxel_true', i) for i in range(n_classes)]
+        columns += ['{}_{}'.format('n_voxel_pred', i) for i in range(n_classes)]
     results = pd.DataFrame(columns=columns)
     results['name'] = data.get_paths()
     results['time'] = runtime
@@ -166,7 +167,7 @@ def calculate_metrics(data, dataloader, net, nSubvolumes, nClasses, subvolume_sh
         segmentation = segmentations[i][original[0]:-original[0],
             original[1]:-original[1],
             original[2]:-original[2]]
-        for c in range(nClasses):
+        for c in range(n_classes):
             for m in metrics:
                 column = '{}_{}'.format(m[1], c)
                 if m[1] == 'dice':
