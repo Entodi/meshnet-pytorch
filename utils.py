@@ -158,13 +158,13 @@ def evaluate(dataset, dataloader, net, model_name,
                 if m['name'] == 'dice':
                     mask_groundthruth = (groundthruth == c).numpy().flatten()
                     mask_segmentation = (segmentation == c).numpy().flatten()
-                    results[column].loc[i] = m['function'](
+                    results[column].at[i] = m['function'](
                         mask_groundthruth, mask_segmentation)
                 else:
                     print ('Evaluation for {} isn\'t defined'.format(m['name']))
-                results['n_voxel_true_{}'.format(c)].loc[i] = np.sum(
+                results['n_voxel_true_{}'.format(c)].at[i] = np.sum(
                     mask_groundthruth)
-                results['n_voxel_pred_{}'.format(c)].loc[i] = np.sum(
+                results['n_voxel_pred_{}'.format(c)].at[i] = np.sum(
                     mask_segmentation)
         if save_prediction:
             filename = '{}_{}_prediction.nii.gz'.format(
