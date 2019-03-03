@@ -18,7 +18,7 @@ parser.add_argument('--models_file', help='A path to file with list of models')
 #-----------------------------------------------------------------------------
 # Data arguments
 parser.add_argument('--evaluation_path', help='A path to file with dataset')
-parser.add_argument('--batch_size', default=4, type=int, metavar='N', 
+parser.add_argument('--batch_size', default=8, type=int, metavar='N', 
     help='size of batch')
 parser.add_argument('--sv_w', default=38, type=int, 
     metavar='N', help='width of subvolumes')

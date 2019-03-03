@@ -31,14 +31,14 @@ parser.add_argument('--sv_d', default=38, type=int, metavar='N',
 #-----------------------------------------------------------------------------
 # Model arguments 
 parser.add_argument('--model', default='', help='Model yml file')
-parser.add_argument('--weight_init', default='kaiming_normal', 
+parser.add_argument('--weight_init', default='xavier_normal', 
     help='weight initilization')
 parser.add_argument('--loss', default='CE', help='Loss function. Default: CE')
 #-----------------------------------------------------------------------------
 # Training arguments
 parser.add_argument('--n_epochs', default=1000, type=int, metavar='N', 
     help='number of total epochs to run')
-parser.add_argument('--batch_size', default=4, type=int, metavar='N', 
+parser.add_argument('--batch_size', default=8, type=int, metavar='N', 
     help='size of batch')
 parser.add_argument('--lr', type=float, default=1e-2, metavar='LR', 
 	help='Base Learning rate (default: 0.01)')
@@ -47,8 +47,8 @@ parser.add_argument('--optimizer', default='Adam', help='Optimizer. Default: Ada
 # Misc arguments
 parser.add_argument('--seed', default=0, type=int, metavar='N', 
     help='seed')
-parser.add_argument('--no_visdom', action='store_true', 
-    help='Turn off visdom monitoring')
+parser.add_argument('--visdom', action='store_true', 
+    help='Turn on visdom monitoring')
 parser.add_argument('--visdom_server', default='http://localhost', 
     help='Visdom Server URL')
 parser.add_argument('--visdom_port', default=8097, type=int, 
@@ -84,7 +84,7 @@ except:
     raise OSError("Can't create destination directory (%s)!" % (modelPath))  
 #-----------------------------------------------------------------------------
 # Setting visdom
-if not args.no_visdom:
+if args.visdom:
     try:
         viz = visdom.Visdom(server=args.visdom_server, 
             port=args.visdom_port, env=model_name)
@@ -140,7 +140,7 @@ scheduler = CosineAnnealingLR(optimizer, T_max=T_max, eta_min=eta_min)
 #-----------------------------------------------------------------------------
 # Training
 T_prev = 1
-if not args.no_visdom:
+if args.visdom:
     evaluation = {
     'train': {args.loss: np.array([]), 'Learning Rate': np.array([])}, 
     'valid': {args.loss: np.array([])}
@@ -176,7 +176,7 @@ for epoch in range(0, args.n_epochs):
     print ('Epoch {} Train CEL: {} Valid CEL: {}'.format(
     epoch, np.round(train_loss, 3), np.round(valid_loss, 3)))
     # sent results to Visdom
-    if not args.no_visdom:
+    if args.visdom:
         evaluation['train']['Learning Rate'] = np.hstack(
             [evaluation['train']['Learning Rate'], scheduler.get_lr()])
         evaluation['train'][args.loss] = np.hstack(
