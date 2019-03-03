@@ -2,18 +2,29 @@
 
 This repository contains PyTorch implementation of MeshNet architecture. MeshNet is volumetric convolutional neural network based on dilated kernels [1] for image segmentation. 
 
+Code provides framework to train, evaluate model for segmentation of 104 class brain atlas. It is modification of our previos work [4]. We also using Cosine Annealing scheduler with Warm Restarts [5] (Experimental).
+
 # Acknowledgment
 
 # References
 
 [1] https://arxiv.org/abs/1511.07122 Multi-Scale Context Aggregation by Dilated Convolutions. *Fisher Yu, Vladlen Koltun*  
 [2] https://arxiv.org/abs/1612.00940 End-to-end learning of brain tissue segmentation from imperfect labeling. *Alex Fedorov, Jeremy Johnson, Eswar Damaraju, Alexei Ozerin, Vince D. Calhoun, Sergey M. Plis*  
-[3] http://www.humanconnectomeproject.org/ Human Connectome Project
-[4] https://arxiv.org/abs/1608.03983 SGDR: Stochastic Gradient Descent with Warm Restarts. Ilya Loshchilov, Frank Hutter
+[3] http://www.humanconnectomeproject.org/ Human Connectome Project  
+[4] https://arxiv.org/abs/1711.00457 Almost instant brain atlas segmentation for large-scale studies.
+Alex Fedorov, Eswar Damaraju, Vince Calhoun, Sergey Plis
+[5] https://arxiv.org/abs/1608.03983 SGDR: Stochastic Gradient Descent with Warm Restarts. Ilya Loshchilov, Frank Hutter
 
 # Examples
 
-* Torch Implementation https://github.com/Entodi/MeshNet
+* Torch Implementation for brain tissue segmentation https://github.com/Entodi/MeshNet
+
+# Result on subject **105216**
+| T1 MRI  | FreeSurfer | MeshNet |
+|---|---|---|
+| ![Alt Text](https://github.com/Entodi/MeshNet/blob/master/gif/axial_t1.gif?raw=true)  |  ![Alt Text](https://github.com/Entodi/MeshNet/blob/master/gif/axial_fs.gif?raw=true)  | ![Alt Text](https://github.com/Entodi/MeshNet/blob/master/gif/axial_219.gif?raw=true)   |
+| ![Alt Text](https://github.com/Entodi/MeshNet/blob/master/gif/sagittal_t1.gif?raw=true)  | ![Alt Text](https://github.com/Entodi/MeshNet/blob/master/gif/sagittal_fs.gif?raw=true)   | ![Alt Text](https://github.com/Entodi/MeshNet/blob/master/gif/sagittal_219.gif?raw=true)   |
+| ![Alt Text](https://github.com/Entodi/MeshNet/blob/master/gif/coronal_t1.gif?raw=true)  | ![Alt Text](https://github.com/Entodi/MeshNet/blob/master/gif/coronal_fs.gif?raw=true)  | ![Alt Text](https://github.com/Entodi/MeshNet/blob/master/gif/coronal_219.gif?raw=true)  |
 
 * Brain Atlas segmentation with [**brainchop.org**](http://brainchop.org)
 To get brain atlas segmentation (https://arxiv.org/abs/1711.00457 extension of this work) you don't need to run any code. Just sign up at [**brainchop.org**](http://brainchop.org), upload your 3T MRI T1 image and get brain atlas in 1-2 minutes.
