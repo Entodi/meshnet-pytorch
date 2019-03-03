@@ -1,1 +1,0 @@
-python main.py --add_info TEST --model ./models_configurations/MeshNet_104_38_T1.yml --train_path ./folds/hcp_example/train.txt --validation_path ./folds/hcp_example/validation.txt --batch_size 8 --sv_w 38 --sv_h 38 --sv_d 38 --n_threads 2 --weight_init xavier_normal --visdom_server http://10.0.102.205
