@@ -4,8 +4,15 @@ import torch.nn.functional as F
 
 from yaml import load, dump
 
-
 def create_model(filename, weight_initilization='identity'):
+    """
+    Creates Neural Network model.
+
+    Arguments:
+        filename: filename of model configuration
+        weight_initilization: weight intilization type
+    """
+    
     model = None
     model_info = load(open(filename, 'r'))
     model_type = model_info['name']
@@ -19,7 +26,14 @@ def create_model(filename, weight_initilization='identity'):
 
 
 def weight_init(model, weight_initilization):
-    print (weight_initilization)
+    """
+    Initialize weights of the Neural Network.
+
+    Arguments:
+        model: Neural Network model
+        weight_initilization: weight intilization type
+    """
+
     if weight_initilization == 'xavier_uniform':
         for m in model.modules():
             if isinstance(m, nn.Conv3d):
@@ -53,11 +67,21 @@ def weight_init(model, weight_initilization):
 
 
 class MeshNet(nn.Module):
-    def __init__(self, params, bn_before=True, weight_initilization='xavier_uniform'):
+    """
+    MeshNet Neural Network
+
+    Arguments:
+        config: config of the neural network
+        bn_before: apply batch normalization before activation function
+        weight_initilization: weight intilization type
+    """
+
+    def __init__(self, config, bn_before=True, 
+        weight_initilization='xavier_uniform'):
         super(MeshNet, self).__init__()
         self.model = nn.Sequential()
-        for i, p in enumerate(params):
-            if i != len(params) - 1:
+        for i, p in enumerate(config):
+            if i != len(config) - 1:
                 self.model.add_module('conv_{}'.format(i), nn.Conv3d(**p['params']))
                 if bn_before:
                     self.model.add_module('bn_{}'.format(i), 
@@ -75,6 +99,13 @@ class MeshNet(nn.Module):
         # weight initilization
         weight_init(self.model, weight_initilization)
 
+
     def forward(self, x):
+        """
+        Forward propagation.
+
+        Arguments:
+            x: input
+        """
         x = self.model(x)
         return x

@@ -80,17 +80,19 @@ for m in models_list:
     for f in files:
         print ('File: {}'.format(f))
         subvolume_shape = np.array([args.sv_d, args.sv_h, args.sv_w])
-        dataset = data.VolumetricDataset(
-            [f], args.n_subvolumes, subvolume_shape, extended=True, evaluation=True)
+        dataset = data.VolumetricDataset([f], args.n_subvolumes, 
+            subvolume_shape, extended=True, evaluation=True)
         dataset.build()
         dataset_loader = torch.utils.data.DataLoader(
             dataset, batch_size=args.batch_size, 
             shuffle=False, num_workers=args.n_threads,
-            worker_init_fn=lambda x: utils.worker_init_fn(x))
-        temp_results = utils.calculate_metrics(
-            dataset, dataset_loader, model, args.n_subvolumes, args.n_classes, 
-            subvolume_shape, save_prediction=args.save_prediction, 
-            model_name=model_info['name'])
+            worker_init_fn=lambda x: utils.worker_init_fn(x)
+        )
+        temp_results = utils.evaluate(
+            dataset, dataset_loader, model,     
+            save_prediction=args.save_prediction, 
+            model_name=model_info['name']
+        )
         results = pd.concat([results, temp_results])
     #-------------------------------------------------------------------------------
     # Save evaluation

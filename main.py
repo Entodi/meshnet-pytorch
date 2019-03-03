@@ -133,7 +133,7 @@ else:
     assert False, 'An optimizer {} isn\'t defined'.format(args.optimizer)
 #-----------------------------------------------------------------------------
 # Set a CosineAnnealingLR scheduler
-T_max = 40
+T_max = 30
 eta_min = 1e-10
 T_mult = 2
 scheduler = CosineAnnealingLR(optimizer, T_max=T_max, eta_min=eta_min)
@@ -166,11 +166,11 @@ for epoch in range(0, args.n_epochs):
     print(end - start)
     print('Validating...')
     start = time.time()
-    train_loss = utils.valid(train_loader, model, criterion)
+    train_loss = utils.validate(train_loader, model, criterion)
     end = time.time()
     print(end - start)
     start = time.time()
-    valid_loss = utils.valid(valid_loader, model, criterion)
+    valid_loss = utils.validate(valid_loader, model, criterion)
     end = time.time()
     print(end - start)
     print ('Epoch {} Train CEL: {} Valid CEL: {}'.format(

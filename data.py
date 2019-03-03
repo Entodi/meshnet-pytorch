@@ -8,17 +8,18 @@ from joblib import Parallel, delayed
 
 
 def unit_interval_normalization(x):
-    '''
+    """
     intensity unit interval normalization.
 
     Arguments:
         x (Tensor): input tensor
-    '''
+    """
+
     return (x - x.min()) / (x.max() - x.min())
 
 
 class Subject:
-    '''
+    """
     Encapsulates subject data.
 
     Arguments:
@@ -28,7 +29,8 @@ class Subject:
         subvolume_shape (array of ints): sampled subvolumes shape
         preprocessing (list of functions): functions is used to preprocess input
         extended (Bool): extend volume shape to be dividend of subvolume shape
-    '''
+    """
+
     def __init__(self, path, input_filenames, 
         target_filename, subvolume_shape, 
         preprocessing, extended):
@@ -42,12 +44,13 @@ class Subject:
 
 
     def _extend_volume(self, _input):
-        '''
+        """
         Extends volume shape to be dividend of subvolume shape.
 
         Arguments:
             _input (Tensor): Input tensor
-        '''
+        """
+
         new_shape = np.ceil(
             _input.shape / self._subvolume_shape) * self._subvolume_shape
         new_shape = tuple(new_shape.astype('int'))
@@ -62,9 +65,10 @@ class Subject:
 
 
     def load_volume(self):
-        '''
+        """
         Loads subject input data and target.
-        '''
+        """
+
         self._inputs = {}
         self._target = None
         self._volume_shape = None
@@ -95,12 +99,12 @@ class Subject:
             self._target = _target
     
     def generate_nonoverlap_coordinates(self):
-        '''
+        """
         Generates nonoverlap grid.
-        '''
+        """
 
         def generate_centered_nonoverlap_1d_grid(length, step):
-            '''
+            """
             Generates a centered nonoverlap grid.
 
             Grid will not cover the whole volume if the multiplier 
@@ -109,7 +113,7 @@ class Subject:
             ARguments:
                 length (int): volume side length
                 step (int): subvolume side length
-            '''
+            """
             return [(c, c + step) for c in range(
                 (length % step) // 2, length - step + 1, step)]
                 
@@ -123,13 +127,14 @@ class Subject:
 
 
     def init_truncated_gaussian_coordinate_generator(self, mus=None, sigmas=None):
-        '''
+        """
         Initiliaze generator for truncated gaussian coordinates.
 
         Arguments:
             mus (array of ints): mean values
             sigmas (array of ints): std values
-        '''
+        """
+
         if mus is None:
             mus = np.array(
                 [self._volume_shape[0] // 2, 
@@ -150,9 +155,10 @@ class Subject:
 
 
     def generate_truncated_gaussian_coordinate(self):
-        '''
+        """
         Samples start and end coordinates for subvolume.
-        '''
+        """
+        
         xyz = np.round(self._truncnorm_coordinates.rvs(size=(1, 3))[0]).astype('int')
         xyz_start = xyz - self._half_subvolume_shape
         xyz_end = xyz + self._half_subvolume_shape
@@ -161,52 +167,58 @@ class Subject:
 
 
     def get_input(self):
-        '''
+        """
         Returns inputs.
-        '''
+        """
+
         return self._inputs
 
     
     def get_target(self):
-        '''
+        """
         Returns target.
-        '''
+        """
+
         return self._target
 
 
     def get_nonoverlap_coordinates(self):
-        '''
+        """
         Returns nonoverlap grid.
-        '''
+        """
+
         return self._nonoverlap_coordinates
 
     
     def get_nonoverlap_coordinate(self, index):
-        '''
+        """
         Returns nonoverlap coodtinate by index:
         
         Arguments:
             index (int): index of coordinate
-        '''
+        """
+
         return self._nonoverlap_coordinates[index]
 
     
     def get_volume_shape(self):
-        '''
+        """
         Returns volume shape.
-        '''
+        """
+
         return self._volume_shape
 
 
     def get_original(self):
-        '''
+        """
         Returns coordinates of original volume.
-        '''
+        """
+
         return self._original
 
 
 class VolumetricDataset(Dataset):
-    '''
+    """
     Encapsulates volumetric dataset.
 
     Arguments:
@@ -220,7 +232,8 @@ class VolumetricDataset(Dataset):
         preprocessing (list of functions): functions is used to preprocess input
         evaluation (Bool): set dataset in evaluation mode
         extended (Bool): extend volume shape to be dividend of subvolume shape
-    '''
+    """
+
     def __init__(self, 
         filename, n_subvolumes, subvolume_shape, mus=None, sigmas=None, 
         input_filenames=['T1.nii.gz'], target_filename='atlas_full_104.nii.gz', 
@@ -242,9 +255,10 @@ class VolumetricDataset(Dataset):
 
     
     def build(self):
-        '''
+        """
         Builds dataset object by loading data and initilize coordinate sampling.
-        '''
+        """
+
         self._load_volumes()
 
         if self._isTest or self._evaluation:
@@ -252,37 +266,58 @@ class VolumetricDataset(Dataset):
         
         self._truncnorm_coordinates()
 
+        self._n_classes = len(torch.unique(self._dataset[0].get_target()))
+
+
+    def get_number_of_classes(self):
+        """
+        Returns number of classes in dataset.
+        """
+
+        return self._n_classes
+
+
+    def get_number_of_subvolumes(self):
+        """
+        Returns number of subvolumes.
+        """
+
+        return self._n_subvolumes
 
     def get_paths(self):
-        '''
+        """
         Returns pathes of subjects.
-        '''
+        """
+
         return self._paths
 
 
     def get_element(self, index):
-        '''
+        """
         Returns subject by index.
         Arguments:
             index (int): index of subject
-        '''
+        """
+
         return self._dataset[index]
 
 
     def get_all_data(self):
-        '''
+        """
         Returns dataset dictionary with all subjects.
-        '''
+        """
+
         return self._dataset
 
 
     def __getitem__(self, index):
-        '''
+        """
         Samples subvolume.
 
         Arguments:
             index (int): index of subvolume
-        '''
+        """
+
         brain_id = index // self._n_subvolumes
         coords_id = index // len(self._dataset.keys())
         
@@ -325,16 +360,18 @@ class VolumetricDataset(Dataset):
 
 
     def __len__(self):
-        '''
+        """
         Provides the size of the dataset.
-        '''
+        """
+
         return self._n_subvolumes * len(self._dataset.keys())
 
 
     def _read_paths(self):
-        '''
+        """
         Reads paths of the subject data.
-        '''
+        """
+
         if isinstance(self._filename, str):
             try:
                 f = open(self._filename, 'r')
@@ -346,31 +383,37 @@ class VolumetricDataset(Dataset):
         else:
             assert False, 'Filename isn\'t path or list'
 
+        if len(self._paths) == 0:
+            assert False, 'No subject directory pathes in the file.'
+
 
     def _nonoverlap_coordinates(self):
-        '''
+        """
         Initilize nonoverlap grid for each subject.
-        '''
+        """
+
         for k in self._dataset.keys():
             self._dataset[k].generate_nonoverlap_coordinates()
             
 
     def _truncnorm_coordinates(self):
-        '''
+        """
         Initiliazes gaussian generators for each subject.
-        '''
+        """
+
         for k in self._dataset.keys():
             self._dataset[k].init_truncated_gaussian_coordinate_generator(
                mus=self._mus, sigmas=self._sigmas)
 
 
     def _load_job(self, path):
-        '''
+        """
         Creates subject and loads it's data.
 
         Arguments:
             path (str): subject diretory path
-        '''
+        """
+
         subject = Subject(path, self._input_filenames, 
             self._target_filename, self._subvolume_shape, 
             self._preprocessing, self._extended)
@@ -379,12 +422,13 @@ class VolumetricDataset(Dataset):
 
 
     def _load_volumes(self):
-        '''
+        """
         Loads subject's data.
-        '''
+        """
+
         self._read_paths()
         self._dataset = {}
         subjects = Parallel(n_jobs=-1)(
-            delayed(self._load_job)(self._paths[index]) for i in progressbar.progressbar(
+            delayed(self._load_job)(self._paths[index]) for index in progressbar.progressbar(
                 range(len(self._paths))))
         self._dataset = {i: s for i, s in enumerate(subjects)}
