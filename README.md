@@ -2,7 +2,7 @@
 
 This repository contains PyTorch implementation of MeshNet architecture. MeshNet is volumetric convolutional neural network based on dilated kernels [1] for image segmentation. 
 
-Code provides framework to train, evaluate model for segmentation of 104 class brain atlas. It is modification of our previous work [4]. We also using Cosine Annealing scheduler with Warm Restarts [5] (**Experimental**).
+Code provides framework to train, evaluate model for segmentation of 104 class brain atlas. It is modification of our previous work [4].
 
 # Training
 ```
@@ -32,7 +32,6 @@ Data were provided [in part] by the Human Connectome Project, WU-Minn Consortium
 [2] https://arxiv.org/abs/1612.00940 End-to-end learning of brain tissue segmentation from imperfect labeling. *Alex Fedorov, Jeremy Johnson, Eswar Damaraju, Alexei Ozerin, Vince D. Calhoun, Sergey M. Plis*  
 [3] http://www.humanconnectomeproject.org/ Human Connectome Project  
 [4] https://arxiv.org/abs/1711.00457 Almost instant brain atlas segmentation for large-scale studies. Alex Fedorov, Eswar Damaraju, Vince Calhoun, Sergey Plis  
-[5] https://arxiv.org/abs/1608.03983 SGDR: Stochastic Gradient Descent with Warm Restarts. Ilya Loshchilov, Frank Hutter
 
 # Previously
 
