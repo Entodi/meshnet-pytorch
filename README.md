@@ -1,12 +1,12 @@
 # MeshNet 
 
-This repository contains PyTorch implementation of MeshNet architecture. MeshNet is volumetric convolutional neural network based on dilated kernels [1] for image segmentation. 
+This repository contains a PyTorch implementation of MeshNet architecture. MeshNet is a volumetric convolutional neural network for image segmentation (focused on brain imaging application) based on dilated kernels [1]. 
 
-Code provides framework to train, evaluate model for segmentation of 104 class brain atlas. It is modification of our previous work [3]. 
+This code provides a framework for training and evaluating a model for segmentation of a T1 (+ optional T2) into a 104 class brain atlas. It is a modification of our previous work [3]. 
 
 # Usage
 ## Data preparation
-1. Prepare **T1 input** with mri_convert from FreeSurfer (https://surfer.nmr.mgh.harvard.edu/) conform T1 to 1mm voxel size in coronal slice direction with side length 256. **You can skip this step if your T1 image with slice thickness 1mm x 1mm x 1mm and 256 x 256 x 256.**
+1. Prepare **T1 input** with mri_convert from FreeSurfer (https://surfer.nmr.mgh.harvard.edu/) conform T1 to 1mm voxel size in coronal slice direction with side length 256. **You can skip this step if your T1 image is alredy with slice thickness 1mm x 1mm x 1mm and 256 x 256 x 256.**
 ```
 mri_convert *brainDir*/t1.nii *brainDir*/T1.nii.gz -c
 ```
@@ -17,12 +17,12 @@ python prepare_data.py --brains_list *brains_lits.txt*
 
 ## Training
 
-To train the model use following command:
+To train the model use the following command:
 ```
 python main.py --model ./models_configurations/MeshNet_104_38_T1.yml --train_path ./folds/hcp_example/train.txt --validation_path ./folds/hcp_example/validation.txt
 ```
 
-We also support Visdom (https://github.com/facebookresearch/visdom) monitoring for training. To use it use arguments: 
+We also support Visdom (https://github.com/facebookresearch/visdom) monitoring during training. To use it use arguments: 
 ```
 --visdom --visdom_server *[visdom_server_ip]* --visdom_port *[visdom_server_port]*
 ```
@@ -36,7 +36,7 @@ python evaluation.py --models_file example_models.txt --evaluation_path folds/hc
 # Requirements
 
 * Install PyTorch https://pytorch.org/get-started/locally/
-* Install other dependicies
+* Install other dependencies
 ```
 pip install -r requirements.txt
 ```
@@ -73,4 +73,4 @@ Watch video with example of brain atlas segmentation.
 
 # Questions
 
-You can ask any questions about implementation and training by sending message to **eidos92@gmail.com**.
+If you have any questions about implementation and training, don't hesitate to either open an issue here or send an email to **eidos92@gmail.com**.
