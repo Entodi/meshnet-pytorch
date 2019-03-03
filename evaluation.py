@@ -28,8 +28,6 @@ parser.add_argument('--sv_d', default=38, type=int,
     metavar='N', help='depth of subvolumes')
 parser.add_argument('--n_subvolumes', default=1024, type=int, 
     metavar='N', help='number of total subvolumes per brain')
-parser.add_argument('--n_classes', default=3, type=int, metavar='N', 
-    help='number of classes')
 parser.add_argument('--n_threads', '-j', default=4, type=int, metavar='N', 
     help='number of data loading threads (default: 2)')
 parser.add_argument('--save_prediction', action='store_true')

@@ -1,0 +1,8 @@
+numpy
+pandas
+nipy
+scipy
+joblib
+progressbar
+visdom
+scikit-learn
