@@ -95,6 +95,10 @@ for m in models_list:
     #-------------------------------------------------------------------------------
     # Save evaluation
     print (results.head())
+    try:
+        os.mkdir('./metrics/')
+    except:
+        pass
     if args.name == '':
         name = './metrics/{}_{}_{}_{}x{}x{}_{}.csv'.format(
             model_info['name'], args.batch_size, 

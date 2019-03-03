@@ -43,6 +43,8 @@ pip install -r requirements.txt
 
 # Acknowledgment
 
+This work is supported by grants IIS-1318759, R01EB020407, R01EB006841, P20GM103472, P30GM122734.
+
 Data were provided [in part] by the Human Connectome Project, WU-Minn Consortium (Principal Investigators: David Van Essen and Kamil Ugurbil; 1U54MH091657) funded by the 16 NIH Institutes and Centers that support the NIH Blueprint for Neuroscience Research; and by the McDonnell Center for Systems Neuroscience at Washington University.
 
 # References

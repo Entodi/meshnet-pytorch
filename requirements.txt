@@ -3,6 +3,6 @@ pandas
 nipy
 scipy
 joblib
-progressbar
+progressbar2
 visdom
 scikit-learn

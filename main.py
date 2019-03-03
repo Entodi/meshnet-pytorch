@@ -79,7 +79,7 @@ model_name = '{}_{}_{}_model_{}'.format(
     model_info['name'], args.loss, args.add_info, current_time)
 modelPath = './models/{}/'.format(model_name)
 try:
-    os.mkdir(modelPath)
+    os.makedirs(modelPath)
 except:
     raise OSError("Can't create destination directory (%s)!" % (modelPath))  
 #-----------------------------------------------------------------------------

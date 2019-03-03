@@ -429,6 +429,6 @@ class VolumetricDataset(Dataset):
         self._read_paths()
         self._dataset = {}
         subjects = Parallel(n_jobs=-1)(
-            delayed(self._load_job)(self._paths[index]) for index in progressbar.progressbar(
-                range(len(self._paths))))
+            delayed(self._load_job)(
+                p) for p in progressbar.progressbar(self._paths))
         self._dataset = {i: s for i, s in enumerate(subjects)}
