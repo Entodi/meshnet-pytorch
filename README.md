@@ -5,6 +5,16 @@ This repository contains PyTorch implementation of MeshNet architecture. MeshNet
 Code provides framework to train, evaluate model for segmentation of 104 class brain atlas. It is modification of our previous work [3]. 
 
 # Usage
+## Data preparation
+1. Prepare **T1** input with mri_convert from FreeSurfer (https://surfer.nmr.mgh.harvard.edu/) conform T1 to 1mm voxel size in coronal slice direction with side length 256. **You can skip this step if your T1 image with slice thickness 1mm x 1mm x 1mm and 256 x 256 x 256.**
+```
+mri_convert *brainDir*/t1.nii *brainDir*/T1.nii.gz -c
+```
+2. Prepare **labels** from aparc+aseg.nii.gz using:
+```
+python prepare_data.py --brains_list *brains_lits.txt*
+```
+
 ## Training
 
 To train the model use following command:
@@ -14,7 +24,7 @@ python main.py --model ./models_configurations/MeshNet_104_38_T1.yml --train_pat
 
 We also support Visdom (https://github.com/facebookresearch/visdom) monitoring for training. To use it use arguments: 
 ```
---visdom --visdom_server [visdom_server_ip] --visdom_port [visdom_server_port]
+--visdom --visdom_server *[visdom_server_ip]* --visdom_port *[visdom_server_port]*
 ```
 
 ## Evaluation
