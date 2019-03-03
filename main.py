@@ -99,10 +99,10 @@ if not args.no_visdom:
 # Prepare dataset
 subvolume_shape = np.array([args.sv_d, args.sv_h, args.sv_w])
 train_dataset = data.VolumetricDataset(
-    args.train_path, args.n_subvolumes, subvolume_shape)
+    args.train_path, args.n_subvolumes, subvolume_shape, extended=True)
 train_dataset.build()
 validation_dataset = data.VolumetricDataset(
-    args.validation_path, args.n_subvolumes, subvolume_shape)
+    args.validation_path, args.n_subvolumes, subvolume_shape, extended=True)
 validation_dataset.build()
 train_loader = torch.utils.data.DataLoader(
     train_dataset, batch_size=args.batch_size, 
@@ -149,7 +149,6 @@ evaluation_df = pd.DataFrame(
     columns=['train_{}'.format(args.loss), 'valid_{}'.format(args.loss)])  
 best_model = 'None'
 best_valid_loss = 100000
-best_gen_gap = 10000
 for epoch in range(0, args.n_epochs):
     # Warm restart check
     if (epoch - T_prev) == T_max:
@@ -189,19 +188,16 @@ for epoch in range(0, args.n_epochs):
     model_filename = modelPath + 'model_state_dict_' + str(epoch) + '.pt'
     torch.save(model.state_dict(), open(model_filename, 'wb'))
     # select current best model
-    if valid_loss < best_valid_loss and np.abs(
-        train_loss - valid_loss) < best_gen_gap:
-            best_valid_loss = valid_loss
-            best_gen_gap = np.abs(train_loss - valid_loss)
-            best_model = model_filename
+    if valid_loss < best_valid_loss:
+        best_valid_loss = valid_loss
+        best_model = model_filename
     # archive results to csv
     evaluation_df.at[epoch] = [train_loss, valid_loss]
     evaluation_df.to_csv(modelPath + 'evaluation.csv', index=False, sep=',')
     # save the model information
     model_info['run_args'] = '{}'.format(args)
     model_info['best_model'] = best_model
-    model_info['valid_loss'] = best_valid_loss
-    model_info['gen_gap'] = best_gen_gap
+    model_info['valid_loss'] = float(best_valid_loss)
     model_info_filename =  modelPath + 'model_info.yml'
     dump(model_info, open(model_info_filename, 'w'))
 

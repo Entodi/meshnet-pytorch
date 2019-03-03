@@ -1,0 +1,1 @@
+/export/mialab/users/afedorov/Research/meshnet-journal-code/models/HCP_meshnet71_104_torch_CE_CA_WR_model_2019_03_01_00_58_42/model_info.yml
