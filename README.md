@@ -6,7 +6,7 @@ Code provides framework to train, evaluate model for segmentation of 104 class b
 
 # Usage
 ## Data preparation
-1. Prepare **T1** input with mri_convert from FreeSurfer (https://surfer.nmr.mgh.harvard.edu/) conform T1 to 1mm voxel size in coronal slice direction with side length 256. **You can skip this step if your T1 image with slice thickness 1mm x 1mm x 1mm and 256 x 256 x 256.**
+1. Prepare **T1 input** with mri_convert from FreeSurfer (https://surfer.nmr.mgh.harvard.edu/) conform T1 to 1mm voxel size in coronal slice direction with side length 256. **You can skip this step if your T1 image with slice thickness 1mm x 1mm x 1mm and 256 x 256 x 256.**
 ```
 mri_convert *brainDir*/t1.nii *brainDir*/T1.nii.gz -c
 ```
