@@ -253,15 +253,17 @@ class VolumetricDataset(Dataset):
                mus=self._mus, sigmas=self._sigmas)
 
 
+    def load_job(self, index):
+        subject = Subject(self._paths[index], self._input_filenames, 
+            self._target_filename, self._subvolume_shape, 
+            self._preprocessing, self._extended)
+        subject.load_volume()  
+        return subject
+
+
     def _load_volumes(self):
-
-        def job(index):
-            self._dataset[index] = Subject(self._paths[index], self._input_filenames, 
-                self._target_filename, self._subvolume_shape, 
-                self._preprocessing, self._extended)
-            self._dataset[index].load_volume()     
-
         self._read_paths()
         self._dataset = {}
-        Parallel(n_jobs=-1)(
-            delayed(job)(i) for i in progressbar.progressbar(range(len(self._paths))))
+        subjects = Parallel(n_jobs=-1)(
+            delayed(self.load_job)(i) for i in progressbar.progressbar(range(len(self._paths))))
+        self._dataset = {i: s for i, s in enumerate(subjects)}
