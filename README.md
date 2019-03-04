@@ -19,7 +19,7 @@ python prepare_data.py --brains_list [brains_lits.txt]
 
 To train the model use the following command:
 ```
-python main.py --model ./models_configurations/MeshNet_104_38_T1.yml --train_path ./folds/hcp_example/train.txt --validation_path ./folds/hcp_example/validation.txt
+python main.py --model ./models_configurations/MeshNet_104_38.yml --train_path ./folds/hcp_example/train.txt --validation_path ./folds/hcp_example/validation.txt
 ```
 
 We also support Visdom (https://github.com/facebookresearch/visdom) monitoring during training. To use it use arguments: 
