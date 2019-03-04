@@ -68,9 +68,20 @@ random.seed(args.seed)
 #torch.backends.cudnn.deterministic = True
 #torch.backends.cudnn.benchmark = False
 #-----------------------------------------------------------------------------
+# Load dataset
+subvolume_shape = np.array([args.sv_d, args.sv_h, args.sv_w])
+train_dataset = data.VolumetricDataset(
+    args.train_path, args.n_subvolumes, subvolume_shape, extended=True)
+train_dataset.build()
+validation_dataset = data.VolumetricDataset(
+    args.validation_path, args.n_subvolumes, subvolume_shape, extended=True)
+validation_dataset.build()
+n_inputs = train_dataset.get_number_of_modalities()
+n_outputs = train_dataset.get_number_of_classes()
+#-----------------------------------------------------------------------------
 # Create a model
 model_info = load(open(args.model, 'r'))
-model, params = models.create_model(args.model, 
+model, params = models.create_model(args.model, n_inputs, n_outputs,
     weight_initilization=args.weight_init)
 #-----------------------------------------------------------------------------
 # Naming the model and create a directory to save the experiment
@@ -96,14 +107,7 @@ if args.visdom:
     except BaseException as e:
         print("The visdom experienced an exception while running: {}".format(repr(e)))
 #-----------------------------------------------------------------------------
-# Prepare dataset
-subvolume_shape = np.array([args.sv_d, args.sv_h, args.sv_w])
-train_dataset = data.VolumetricDataset(
-    args.train_path, args.n_subvolumes, subvolume_shape, extended=True)
-train_dataset.build()
-validation_dataset = data.VolumetricDataset(
-    args.validation_path, args.n_subvolumes, subvolume_shape, extended=True)
-validation_dataset.build()
+# Prepare dataset loaders
 train_loader = torch.utils.data.DataLoader(
     train_dataset, batch_size=args.batch_size, 
     shuffle=True, num_workers=args.n_threads, 

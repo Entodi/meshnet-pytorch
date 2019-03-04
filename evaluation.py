@@ -65,15 +65,8 @@ for m in models_list:
     print ('Model: {}'.format(m))
     model_info = load(open(m, 'r'))
     best_model = model_info['best_model']
-    model, params = models.create_model(m)
-    if torch.cuda.device_count() > 0:
-        print("Let's use", torch.cuda.device_count(), "GPUs!")
-        model = nn.DataParallel(model)
-        model.cuda()
-    model = utils.load_net_weights(model, best_model)
     #------------------------------------------------------------------------------
     # Run evaluation
-    model.eval()
     results = pd.DataFrame()
     for f in files:
         print ('File: {}'.format(f))
@@ -81,6 +74,15 @@ for m in models_list:
         dataset = data.VolumetricDataset([f], args.n_subvolumes, 
             subvolume_shape, extended=True, evaluation=True)
         dataset.build()
+        n_inputs = dataset.get_number_of_modalities()
+        n_outputs = dataset.get_number_of_classes()
+        model, params = models.create_model(m, n_inputs, n_outputs)
+        if torch.cuda.device_count() > 0:
+            print("Let's use", torch.cuda.device_count(), "GPUs!")
+            model = nn.DataParallel(model)
+            model.cuda()
+        model = utils.load_net_weights(model, best_model)
+        model.eval()
         dataset_loader = torch.utils.data.DataLoader(
             dataset, batch_size=args.batch_size, 
             shuffle=False, num_workers=args.n_threads,

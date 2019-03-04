@@ -265,8 +265,9 @@ class VolumetricDataset(Dataset):
             self._nonoverlap_coordinates()
         
         self._truncnorm_coordinates()
-
+        
         self._n_classes = len(torch.unique(self._dataset[0].get_target()))
+        self._n_modalities = len(self._dataset[0].get_input())
 
 
     def get_number_of_classes(self):
@@ -275,6 +276,14 @@ class VolumetricDataset(Dataset):
         """
 
         return self._n_classes
+
+
+    def get_number_of_modalities(self):
+        """
+        Returns number of modalities in dataset.
+        """
+
+        return self._n_modalities
 
 
     def get_number_of_subvolumes(self):

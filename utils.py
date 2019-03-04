@@ -21,7 +21,11 @@ def load_net_weights(net, filename):
         filename: filename with model weights
     """
 
-    state_dict = torch.load(filename)
+    if torch.cuda.is_available():
+        device = torch.device('cuda')
+    else:
+        device = torch.device('cpu')
+    state_dict = torch.load(filename, map_location=device)
     state = net.state_dict()
     state.update(state_dict)
     net.load_state_dict(state)
