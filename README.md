@@ -6,7 +6,7 @@ This code provides a framework for training and evaluating a model for segmentat
 
 # Usage
 ## Data preparation
-1. Prepare **T1 input** with mri_convert from FreeSurfer (https://surfer.nmr.mgh.harvard.edu/) conform T1 to 1mm voxel size in coronal slice direction with side length 256. **You can skip this step if your T1 image is already with slice thickness 1mm x 1mm x 1mm and 256 x 256 x 256.**
+1. Prepare **T1 or T2 input** with mri_convert from FreeSurfer (https://surfer.nmr.mgh.harvard.edu/) conform T1 to 1mm voxel size in coronal slice direction with side length 256. **You can skip this step if your T1 image is already with slice thickness 1mm x 1mm x 1mm and 256 x 256 x 256.**
 ```
 mri_convert *brainDir*/t1.nii *brainDir*/T1.nii.gz -c
 ```
@@ -30,7 +30,7 @@ We also support Visdom (https://github.com/facebookresearch/visdom) monitoring d
 ## Evaluation
 To evaluate the model use the following command:
 ```
-python evaluation.py --models_file example_models.txt --evaluation_path folds/hcp_example/test.txt
+python evaluation.py --models_file [models_list.txt] --evaluation_path folds/hcp_example/test.txt
 ```
 
 # Requirements
