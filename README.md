@@ -51,7 +51,7 @@ Data were provided [in part] by the Human Connectome Project, WU-Minn Consortium
 
 [1] https://arxiv.org/abs/1511.07122 Multi-Scale Context Aggregation by Dilated Convolutions. *Fisher Yu, Vladlen Koltun*  
 [2] https://arxiv.org/abs/1612.00940 End-to-end learning of brain tissue segmentation from imperfect labeling. *Alex Fedorov, Jeremy Johnson, Eswar Damaraju, Alexei Ozerin, Vince D. Calhoun, Sergey M. Plis*  
-[3] https://arxiv.org/abs/1711.00457 Almost instant brain atlas segmentation for large-scale studies. *Alex Fedorov, Eswar Damaraju, Vince Calhoun, Sergey Plis*
+[3] https://arxiv.org/abs/1711.00457 Almost instant brain atlas segmentation for large-scale studies. *Alex Fedorov, Eswar Damaraju, Vince Calhoun, Sergey Plis*  
 [4] http://www.humanconnectomeproject.org/ Human Connectome Project  
 
 # Previously
