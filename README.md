@@ -8,11 +8,11 @@ This code provides a framework for training and evaluating a model for segmentat
 ## Data preparation
 1. Prepare **T1 or T2 input** with mri_convert from FreeSurfer (https://surfer.nmr.mgh.harvard.edu/) conform T1 to 1mm voxel size in coronal slice direction with side length 256. **You can skip this step if your T1 image is already with slice thickness 1mm x 1mm x 1mm and 256 x 256 x 256.**
 ```
-mri_convert *brainDir*/t1.nii *brainDir*/T1.nii.gz -c
+mri_convert [brainDir]/t1.nii [brainDir]/T1.nii.gz -c
 ```
 2. Prepare **labels** from aparc+aseg.nii.gz using:
 ```
-python prepare_data.py --brains_list *brains_lits.txt*
+python prepare_data.py --brains_list [brains_lits.txt]
 ```
 
 ## Training
@@ -24,7 +24,7 @@ python main.py --model ./models_configurations/MeshNet_104_38_T1.yml --train_pat
 
 We also support Visdom (https://github.com/facebookresearch/visdom) monitoring during training. To use it use arguments: 
 ```
---visdom --visdom_server *[visdom_server_ip]* --visdom_port *[visdom_server_port]*
+--visdom --visdom_server [visdom_server_ip] --visdom_port [visdom_server_port]
 ```
 
 ## Evaluation
@@ -51,7 +51,7 @@ Data were provided [in part] by the Human Connectome Project, WU-Minn Consortium
 
 [1] https://arxiv.org/abs/1511.07122 Multi-Scale Context Aggregation by Dilated Convolutions. *Fisher Yu, Vladlen Koltun*  
 [2] https://arxiv.org/abs/1612.00940 End-to-end learning of brain tissue segmentation from imperfect labeling. *Alex Fedorov, Jeremy Johnson, Eswar Damaraju, Alexei Ozerin, Vince D. Calhoun, Sergey M. Plis*  
-[3] https://arxiv.org/abs/1711.00457 Almost instant brain atlas segmentation for large-scale studies. Alex Fedorov, Eswar Damaraju, Vince Calhoun, Sergey Plis  
+[3] https://arxiv.org/abs/1711.00457 Almost instant brain atlas segmentation for large-scale studies. *Alex Fedorov, Eswar Damaraju, Vince Calhoun, Sergey Plis*
 [4] http://www.humanconnectomeproject.org/ Human Connectome Project  
 
 # Previously
